@@ -1,6 +1,7 @@
 <div class="container">
     <!-- /.row -->
     <div class="row">
+	<script src='https://www.google.com/recaptcha/api.js'></script>
         <form role="form" class="signin" method="POST" action="/user/login<?php echo $returnUrl ? '?return_url=' . rawurlencode($returnUrl) : ''; ?> " id="loginPageForm">
             <h1>Please login <small></small></h1>
             <ol class="breadcrumb">
