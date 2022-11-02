@@ -28,37 +28,53 @@ class User extends Page
         $this->view->returnUrl = $returnUrl;
 
         if ($this->request->method == 'POST') {
-
             $login = $this->model->checkLoginUser($this->request->postWrap('username'));
             $password = $this->request->postWrap('password');
 
             $user = $this->model->loadUserModel($login);
 
-            if($user && $user->active){
-                //Attempt to login the user using his
-                //username and password
-                $logged = $this->pixie->auth
-                    ->provider('password')
-                    ->login($login, $password);
+            $googlecaptcha =  $this->request->postWrap('g-recaptcha-response');            
+            if($googlecaptcha !="") {
+                $secretKey = "6Lc91ZYiAAAAAInKfbWc8xvw0E9mgSFn7dWwQOou";
+                $responseKey = $_POST['g-recaptcha-response'];
+                $userIP = $_SERVER['REMOTE_ADDR'];
+        
+                $url = "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$responseKey&remoteip=$userIP";
+                $response = file_get_contents($url);
+                $jsonresp= json_decode($response, true);
+                $success= $jsonresp['success'];
+                //success will be 1 if success else nothing
+                if($success) {
+                        if($user && $user->active ){
+                                //Attempt to login the user using his
+                                //username and password
+                                $logged = $this->pixie->auth
+                                    ->provider('password')
+                                    ->login($login, $password);
+                                if ($logged){
+                                    $user->last_login = date('Y-m-d H:i:s');
+                                    $user->save();
 
-                if ($logged){
-
-                    $user->last_login = date('Y-m-d H:i:s');
-                    $user->save();
-
-                    //On successful login redirect the user to
-                    //our protected page, or return_url, if specified
-                    if ($returnUrl->raw()) {
-                        $this->redirect($returnUrl->escapeXSS());
-                        return;
+                                        //On successful login redirect the user to our protected page, or return_url, if specified
+                                        if ($returnUrl->raw()) {
+                                            $this->redirect($returnUrl->escapeXSS());
+                                            return;
+                                        }
+                                   $this->redirect('/account');
+                                    return;
+                                }
+                                                }
+                                                $this->view->username = $this->request->postWrap('username');
+                                                $this->view->errorMessage = "Username or password are incorrect.";
+                                        } else {
+                                $this->view->username = $this->request->postWrap('username');
+                                $this->view->errorMessage = "you are a bot! ";
                     }
+            } else {
+              $this->view->username = $this->request->postWrap('username');
+              $this->view->errorMessage = "Please validate you are not a robot";
 
-                    $this->redirect('/account');
-                    return;
-                }
             }
-            $this->view->username = $this->request->postWrap('username');
-            $this->view->errorMessage = "Username or password are incorrect.";
         }
 
         //Include 'login.php' subview
