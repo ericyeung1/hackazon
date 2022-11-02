@@ -30,6 +30,13 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <div class="g-recaptcha" data-sitekey="6Lc91ZYiAAAAAFDkK6PmJZePlVVCQy84MVm4j1W8"></div>
+                    </div>
+                </div>
+            </div>
             <hr class="colorgraph">
             <div class="row">
                 <div class="col-xs-6 col-md-6"><button id="loginbtn"  type="submit" class="btn btn-success btn-block btn-lg">Sign In</button></div>
