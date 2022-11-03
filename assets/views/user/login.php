@@ -34,7 +34,7 @@
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
-                        <div class="g-recaptcha" data-sitekey="6LfmV9UiAAAAAI8iUtPj0rG9KX8mQdrqGnd-XaYf"></div>
+                        <div class="g-recaptcha" data-sitekey="6Leb-9UiAAAAALynnfrEpS4TCiB8kLWjMVbe5JSU"></div>
                     </div>
                 </div>
             </div>
