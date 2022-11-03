@@ -35,7 +35,7 @@ class User extends Page
 
             $googlecaptcha =  $this->request->postWrap('g-recaptcha-response');            
             if($googlecaptcha !="") {
-                $secretKey = "6LfmV9UiAAAAALPNWHyu8f2dPhWCNe6lj1LmbXN3";
+                $secretKey = "6Leb-9UiAAAAAEzs1PqworHa1TXIgdcgAlo51Umu";
                 $responseKey = $_POST['g-recaptcha-response'];
                 $userIP = $_SERVER['REMOTE_ADDR'];
         
